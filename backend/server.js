@@ -18,6 +18,8 @@ app.use((req, res, next) => {
 // routes
 app.use("/api/workouts", workoutRoutes);
 
+// console.log(process.env.MONGO_URI);
+
 // connect to db
 mongoose
   .connect(process.env.MONGO_URI)
