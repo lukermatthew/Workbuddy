@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 // date fns
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
@@ -5,8 +6,10 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 const WorkoutDetails = ({ workout }) => {
   const { dispatch } = useWorkoutsContext();
 
-  const handleClick = async () => {
-    const response = await fetch("/api/workouts/" + workout._id, {
+  const id = useParams();
+
+  const handleClickDelete = async (id) => {
+    const response = await fetch("/api/workouts/" + id, {
       method: "DELETE",
     });
     const json = await response.json();
@@ -14,6 +17,10 @@ const WorkoutDetails = ({ workout }) => {
     if (response.ok) {
       dispatch({ type: "DELETE_WORKOUT", payload: json });
     }
+  };
+
+  const handleClickEdit = async (id) => {
+    console.log(id);
   };
 
   return (
@@ -30,9 +37,19 @@ const WorkoutDetails = ({ workout }) => {
       <p>
         {formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}
       </p>
-      <span className="material-symbols-outlined" onClick={handleClick}>
+      <div
+        className="edit-action material-symbols-outlined"
+        onClick={() => handleClickEdit(workout._id)}
+      >
+        edit
+      </div>
+      <div
+        className="delete-action material-symbols-outlined"
+        // onClick={handleClickDelete}
+        onClick={() => handleClickDelete(workout._id)}
+      >
         delete
-      </span>
+      </div>
     </div>
   );
 };
