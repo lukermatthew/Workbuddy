@@ -16,10 +16,6 @@ export const workoutsReducer = (state, action) => {
       return {
         workouts: state.workouts.filter((w) => w._id !== action.payload._id),
       };
-    case "EDIT_WORKOUT":
-      return {
-        workouts: state.workouts.filter((w) => w._id !== action.payload._id),
-      };
     default:
       return state;
   }
@@ -29,6 +25,8 @@ export const WorkoutsContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(workoutsReducer, {
     workouts: null,
   });
+
+  // console.log("WorkoutContext state:", state);
 
   return (
     <WorkoutsContext.Provider value={{ ...state, dispatch }}>
